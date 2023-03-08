@@ -1,0 +1,51 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto','sans-serif';
+}
+
+html{
+    scroll-behavior: smooth;
+}
+
+#teste1{
+    margin-top: 600px;
+    margin-bottom: 1200px;
+}
+
+.quadro{
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+    min-height: 150px;
+}
+
+
+#teste1,
+#teste2{
+    width: 100%;
+}
+
+
+a{
+    display: inline-block;
+    margin-top: 10px;
+    padding: 50px;
+    color: #000;
+    text-decoration: none;
+}
+
+.quadro button{
+    text-align: center;
+    padding: 16px;
+    background-color: rgb(95, 209, 95);
+    cursor: pointer;
+
+}
+
+.flex-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
