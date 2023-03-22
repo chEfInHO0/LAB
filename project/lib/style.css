@@ -1,0 +1,9 @@
+label.error {
+    background-color: rgba(255, 0, 0, 0.253);
+    color: red;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-left: 20px;
+    padding: 0px 16px;
+
+}
