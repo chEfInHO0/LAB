@@ -43,3 +43,39 @@ if (location.protocol != 'https:') {
     }
 
 }
+
+
+
+
+
+
+if (location.protocol != 'https:') {
+
+    if (window.chrome) {
+        console.log('chrome is bad')
+        let position = {
+            coords: {
+                latitude: '',
+                longitude: ''
+            }
+        };
+        $(document).ready(function () {
+            $.getJSON("http://ip-api.com/json", function (data, status) {
+                console.log(data)
+                y.html(`${Object.entries(data)}`)
+                if (status === "success") {
+                    $(fields).insertBefore(x)
+                    $(`<input class="form-control d-block" type="text" name="latlon" value="${data['lat']}, ${data['lon']}" disabled>`).appendTo(x)
+                    
+                }else{
+
+                    $(`<h2>Não foi possivel estabelecer sua posição, verifique sua conexão com a internet</h2>`).appendTo(y)
+                    $(`${data}`).appendTo(y)
+                }
+            });
+        })
+    } else {
+        navigator.geolocation.getCurrentPosition(locationOnSuccess, locationOnError, geo_options);
+    }
+
+}
