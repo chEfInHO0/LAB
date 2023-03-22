@@ -15,7 +15,7 @@ $(document).ready(function () {
     $('#submiter').click(function () {
         $('form').submit()
     })
-    const x = document.querySelector('form #submiter')
+    const x = document.querySelector('form')
     let lat
     let lon
     function getLocation() {
@@ -24,28 +24,28 @@ $(document).ready(function () {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition, showError);
         } else {
-            x.innerHTML = "Geolocation is not supported by this browser.";
+            x.innerHTML = "Este dispositivo não suporta o uso de geolocalização";
         }
     }
 
     function showPosition(position) {
         lat = position.coords.latitude 
         lon = position.coords.longitude
-        $(fields).insertBefore($(x))
+        $(fields).insertBefore($('form #submiter'))
     }
     function showError(error) {
         switch (error.code) {
             case error.PERMISSION_DENIED:
-                x.innerHTML = "User denied the request for Geolocation."
+                x.innerHTML = "Usuário rejeitou o pedido de Localização"
                 break;
             case error.POSITION_UNAVAILABLE:
-                x.innerHTML = "Location information is unavailable."
+                x.innerHTML = "As informações do local estão indisponíveis"
                 break;
             case error.TIMEOUT:
-                x.innerHTML = "The request to get user location timed out."
+                x.innerHTML = "O servidor demorou muito para responder, tente novamente"
                 break;
             case error.UNKNOWN_ERROR:
-                x.innerHTML = "An unknown error occurred."
+                x.innerHTML = "Ocorreu um erro"
                 break;
         }
     }
