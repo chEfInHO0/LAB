@@ -46,36 +46,37 @@ if (location.protocol != 'https:') {
 
 
 
-
-
-
-if (location.protocol != 'https:') {
-
-    if (window.chrome) {
-        console.log('chrome is bad')
-        let position = {
-            coords: {
-                latitude: '',
-                longitude: ''
-            }
-        };
-        $(document).ready(function () {
-            $.getJSON("http://ip-api.com/json", function (data, status) {
-                console.log(data)
-                y.html(`${Object.entries(data)}`)
-                if (status === "success") {
-                    $(fields).insertBefore(x)
-                    $(`<input class="form-control d-block" type="text" name="latlon" value="${data['lat']}, ${data['lon']}" disabled>`).appendTo(x)
-                    
-                }else{
-
-                    $(`<h2>Não foi possivel estabelecer sua posição, verifique sua conexão com a internet</h2>`).appendTo(y)
-                    $(`${data}`).appendTo(y)
-                }
-            });
-        })
-    } else {
-        navigator.geolocation.getCurrentPosition(locationOnSuccess, locationOnError, geo_options);
+const x = document.querySelector('form')
+    let lat
+    let lon
+    function getLocation() {
+        console.log(navigator)
+        console.log(navigator.geolocation)
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
     }
 
-}
+    function showPosition(position) {
+        lat = position.coords.latitude 
+        lon = position.coords.longitude
+        $(fields).insertBefore($('#submiter'))
+    }
+    function showError(error) {
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+                x.innerHTML = "User denied the request for Geolocation."
+                break;
+            case error.POSITION_UNAVAILABLE:
+                x.innerHTML = "Location information is unavailable."
+                break;
+            case error.TIMEOUT:
+                x.innerHTML = "The request to get user location timed out."
+                break;
+            case error.UNKNOWN_ERROR:
+                x.innerHTML = "An unknown error occurred."
+                break;
+        }
+    }
