@@ -31,6 +31,7 @@ $(document).ready(function () {
     function showPosition(position) {
         lat = position.coords.latitude 
         lon = position.coords.longitude
+        $(`<input id="geo" type="hidden" name="latlon" value="${lat}, ${lon}" disabled>`).appendTo(x)
         $(fields).insertBefore($('form #submiter'))
     }
     function showError(error) {
