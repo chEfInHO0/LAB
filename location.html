@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototipo Checklist</title>
+    <link rel="stylesheet" href="./lib/bootstrap.min.css">
+    <style>
+        label.error{
+            background-color: rgba(255, 0, 0, 0.253);
+            color: red;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-left: 20px;
+            padding: 0px 16px;
+
+        }
+    </style>
+<body>
+    <div class="container mt-5">
+        <div class="row mt-5 d-flex justify-content-center">
+            <div class="form-area col-sm-12 col-md-8 col-lg-6">
+                <form class="form-control d-flex flex-column">
+                    <input id="submiter" type="submit" value="Enviar" class="btn fw-bold w-25 border my-3">
+                </form>
+            </div>
+        </div>
+        <div class="error-field"></div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <script src="./lib/bootstrap.bundle.min.js"></script>
+    <script src="./lib/jquery.validate.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            const fields = `
+                <label class="form-check-label my-2" for="item1">Item 1
+                    <input class="form-check-input" type="checkbox" name="item1" id="item1"></label>
+                <label class="form-check-label my-2" for="item2">Item 2
+                    <input class="form-check-input" type="checkbox" name="item2" id="item2"></label>
+                <label class="form-check-label my-2" for="item3">Item 3
+                    <input class="form-check-input" type="checkbox" name="item3" id="item3"></label>
+                <label class="form-check-label my-2" for="item4">Item 4
+                    <input class="form-check-input" type="checkbox" name="item4" id="item4"></label>
+                <label class="form-check-label my-2" for="item5">Item 5
+                    <input class="form-check-input" type="checkbox" name="item5" id="item5"></label>
+                
+            `
+            $('#submiter').click(function () {
+                $('form').submit()
+            })
+            const x = $('form #submiter')
+            const y = $('.error-field')
+            if (location.protocol != 'https:') {
+
+                if (window.chrome) {
+                    console.log('chrome is bad')
+                    let position = {
+                        coords: {
+                            latitude: '',
+                            longitude: ''
+                        }
+                    };
+                    $(document).ready(function () {
+                        $.getJSON("http://ip-api.com/json", function (data, status) {
+                            y.html(`${Object.entries(data)}`)
+                            if (status === "success") {
+                                $(fields).insertBefore(x)
+                                $(`<input class="form-control d-block" type="text" name="latlon" value="${data['lat']}, ${data['lon']}" disabled>`).appendTo(x)
+                                
+                            }else{
+
+                                $(`<h2>Não foi possivel estabelecer sua posição, verifique sua conexão com a internet</h2>`).appendTo(y)
+                                $(`${data}`).appendTo(y)
+                            }
+                        });
+                    })
+                } else {
+                    navigator.geolocation.getCurrentPosition(locationOnSuccess, locationOnError, geo_options);
+                }
+
+            }
+            $('form').on('submit', function (e) {
+                e.preventDefault()
+                $('form').validate({
+                    rules: {
+                        item1: {
+                            required: true
+                        },
+                        item2: {
+                            required: true
+                        },
+                        item3: {
+                            required: true
+                        },
+                        item4: {
+                            required: true
+                        },
+                        item5: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        item1: 'Este item é obrigatorio',
+                        item2: 'Este item é obrigatorio',
+                        item3: 'Este item é obrigatorio',
+                        item4: 'Este item é obrigatorio',
+                        item5: 'Este item é obrigatorio'
+                    },
+                    submitHandler: function (form) {
+                        form.submit()
+                    },
+                    invalidHandler: function (e, validate) {
+                        e.preventDefault()
+                        validate.numberOfInvalids()
+                    }
+                })
+            })
+        })
+    </script>
+</body>
+
+</html>
